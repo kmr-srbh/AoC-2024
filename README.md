@@ -61,7 +61,7 @@ Problem  | Stars  | Solution | Runtime
  * [AoC-2020](https://github.com/jacobwilliams/AoC-2020)
  * [AoC-2021](https://github.com/jacobwilliams/AoC-2021)
  * [AoC-2022](https://github.com/jacobwilliams/AoC-2022)
- * [AoC-2024](https://github.com/jacobwilliams/AoC-2023)
+ * [AoC-2023](https://github.com/jacobwilliams/AoC-2023)
  * [AoC-2024](https://github.com/jacobwilliams/AoC-2024)
 
  ## Documentation
