@@ -10,7 +10,7 @@
 
 All the cases can be compiled and run using the [Fortran Package Manager](https://fpm.fortran-lang.org).
 
-To build a conda env using `pixi` and activate it:
+To build a conda environment using [pixi](https://pixi.sh/latest/switching_from/conda/#why-pixi) and activate it:
 
 ```
 pixi init env
