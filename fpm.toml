@@ -1,0 +1,26 @@
+name = "AoC-2023"
+author = "Jacob Williams"
+copyright  = "Copyright (c) 2024, Jacob Williams"
+license = "BSD-3"
+description = "Advent of Code 2024 with Fortran"
+homepage = "https://github.com/jacobwilliams/AoC-2024"
+keywords = ["AOC"]
+
+# [dependencies]
+# # argv-fortran = { git="https://github.com/jacobwilliams/argv-fortran.git" }
+# # json-fortran = { git="https://github.com/jacobwilliams/json-fortran.git", tag = "8.3.0" }
+# # pikaia = { git="https://github.com/jacobwilliams/pikaia.git", tag = "2.0.0" }
+# daglib = { git="https://github.com/jacobwilliams/daglib" }
+# nlesolver-fortran = { git="https://github.com/jacobwilliams/nlesolver-fortran.git", tag="bbc9fabd4f9ff189f63d64d8c62419dbe17e36a3" }
+# NumDiff = { git="https://github.com/jacobwilliams/NumDiff.git" }
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
+
+[install]
+library = false
