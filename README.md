@@ -37,7 +37,7 @@ fpm run --profile release --all
 
 Problem  | Stars  | Solution | Runtime
 --       | --     | --       | --
-[1](https://adventofcode.com/2024/day/1)  | ☆☆ | [problem_01.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_01.f90)  | ? ms
+[1](https://adventofcode.com/2024/day/1)  | ⭐⭐ | [problem_01.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_01.f90)  | 1 ms
 [2](https://adventofcode.com/2024/day/2)  | ☆☆ | [problem_02.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_02.f90)  | ? ms
 [3](https://adventofcode.com/2024/day/3)  | ☆☆ | [problem_03.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_03.f90)  | ? ms
 [4](https://adventofcode.com/2024/day/4)  | ☆☆ | [problem_04.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_04.f90)  | ? ms
