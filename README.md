@@ -15,7 +15,7 @@ To build a conda environment using [pixi](https://pixi.sh/latest/switching_from/
 ```
 pixi init env
 cd env
-pixi add gfortran=13.2 fpm=0.10 ford=7.0 gfortran=13.2.0 python=3.13 graphviz=12.0
+pixi add gfortran=13.2 fpm=0.10 ford=7.0 gfortran=13.2.0 python=3.13 graphviz=12.0 numpy==2.1 ipython==8.30
 pixi shell
 ```
 
@@ -50,18 +50,18 @@ Problem  | Stars  | Solution | Runtime
 [11](https://adventofcode.com/2024/day/11)| ☆☆ | [problem_11.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_11.f90)  |
 [12](https://adventofcode.com/2024/day/12)| ☆☆ | [problem_12.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_12.f90)  |
 [13](https://adventofcode.com/2024/day/13)| ☆☆ | [problem_13.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_13.f90)  |
-[14](https://adventofcode.com/2024/day/14)| ☆☆  | [problem_14.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_14.f90) |
-[15](https://adventofcode.com/2024/day/15)| ☆☆  | [problem_15.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_15.f90) |
+[14](https://adventofcode.com/2024/day/14)| ☆☆ | [problem_14.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_14.f90) |
+[15](https://adventofcode.com/2024/day/15)| ☆☆ | [problem_15.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_15.f90) |
 [16](https://adventofcode.com/2024/day/16)| ☆☆ | [problem_16.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_16.f90)  |
-[17](https://adventofcode.com/2024/day/17)| ☆☆  | [problem_17.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_17.f90) |
-[18](https://adventofcode.com/2024/day/18)| ☆☆  | [problem_18.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_18.f90) |
+[17](https://adventofcode.com/2024/day/17)| ☆☆ | [problem_17.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_17.f90) |
+[18](https://adventofcode.com/2024/day/18)| ☆☆ | [problem_18.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_18.f90) |
 [19](https://adventofcode.com/2024/day/19)| ☆☆ | [problem_19.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_19.f90)  |
-[20](https://adventofcode.com/2024/day/20)| ☆☆  | [problem_20.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_20.f90) |
-[21](https://adventofcode.com/2024/day/21)| ☆☆  | [problem_21.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_21.f90) |
-[22](https://adventofcode.com/2024/day/22)| ☆☆  | [problem_22.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_22.f90) |
-[23](https://adventofcode.com/2024/day/23)| ☆☆  | [problem_23.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_23.f90) |
-[24](https://adventofcode.com/2024/day/24)| ☆☆  | [problem_24.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_24.f90) |
-[25](https://adventofcode.com/2024/day/25)| ☆☆  | [problem_25.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_25.f90) |
+[20](https://adventofcode.com/2024/day/20)| ☆☆ | [problem_20.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_20.f90) |
+[21](https://adventofcode.com/2024/day/21)| ☆☆ | [problem_21.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_21.f90) |
+[22](https://adventofcode.com/2024/day/22)| ☆☆ | [problem_22.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_22.f90) |
+[23](https://adventofcode.com/2024/day/23)| ☆☆ | [problem_23.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_23.f90) |
+[24](https://adventofcode.com/2024/day/24)| ☆☆ | [problem_24.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_24.f90) |
+[25](https://adventofcode.com/2024/day/25)| ☆☆ | [problem_25.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_25.f90) |
 
 † With OpenMP enabled (i.e, add `--flag "-fopenmp"` to the FPM call).
 
