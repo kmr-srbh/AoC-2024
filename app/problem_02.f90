@@ -5,29 +5,23 @@ use aoc_utilities
 implicit none
 
 integer :: iunit, i, j, isum, n, del, isum2
-logical :: status_ok
-character(len=:),allocatable :: line
-integer,dimension(:),allocatable :: ints, ints_tmp
+integer,dimension(:),allocatable :: ints
 
 call clk%tic()
 
 open(newunit=iunit, file='inputs/day2.txt', status='OLD')
 n = number_of_lines_in_file(iunit)
-
 isum = 0
 isum2 = 0
 do i = 1, n
-    line = read_line(iunit,status_ok)
-    ints = parse_ints(line)
+    ints = parse_ints(read_line(iunit))  ! get the ints from the line
     if (safe(ints)) then ! already safe
         isum = isum + 1
         isum2 = isum2 + 1
     else
-        !part 2:
         do j = 1, size(ints)
-            ! is it safe with jth element removed?
-            ints_tmp = [ints(1:j-1), ints(j+1:size(ints))]
-            if (safe(ints_tmp)) then
+            ! part 2: is it safe with jth element removed?
+            if (safe([ints(1:j-1), ints(j+1:size(ints))])) then
                 isum2 = isum2 + 1
                 exit
             end if
