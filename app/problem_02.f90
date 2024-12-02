@@ -38,7 +38,7 @@ close(iunit)
 
 write(*,*) '2a:', isum
 write(*,*) '2b:', isum2
-call clk%toc('1')
+call clk%toc('2')
 
 contains
 
