@@ -43,24 +43,26 @@ call clk%toc('1')
 contains
 
     logical function safe(ints)
-    !! is it safe?
-    integer,dimension(:),intent(in) :: ints
+        !! is it safe?
 
-    integer :: j
-    logical :: increasing, decreasing, diffcheck
+        integer,dimension(:),intent(in) :: ints
 
-    increasing = .true.
-    decreasing = .true.
-    diffcheck = .true.
-    do j = 1, size(ints)-1
-        ! The levels are either all increasing or all decreasing.
-        if (ints(j+1) > ints(j)) decreasing = .false.
-        if (ints(j+1) < ints(j)) increasing = .false.
-        ! Any two adjacent levels differ by at least one and at most three.
-        del = abs(ints(j+1) - ints(j))
-        if (del==0 .or. del>3) diffcheck = .false.
-    end do
-    safe = ((increasing .or. decreasing) .and. diffcheck)
+        integer :: j
+        logical :: increasing, decreasing, diffcheck
+
+        increasing = .true.
+        decreasing = .true.
+        diffcheck = .true.
+        do j = 1, size(ints)-1
+            ! The levels are either all increasing or all decreasing.
+            if (ints(j+1) > ints(j)) decreasing = .false.
+            if (ints(j+1) < ints(j)) increasing = .false.
+            ! Any two adjacent levels differ by at least one and at most three.
+            del = abs(ints(j+1) - ints(j))
+            if (del==0 .or. del>3) diffcheck = .false.
+            safe = ((increasing .or. decreasing) .and. diffcheck)
+            if (.not. safe) exit
+        end do
 
     end function safe
 
