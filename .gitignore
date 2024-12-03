@@ -37,7 +37,9 @@
 /doc
 /lib
 /env
+/archive
 
 # misc
 .DS_Store
+
 
