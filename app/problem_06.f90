@@ -16,10 +16,10 @@ call clk%tic()
 array = read_file_to_char_array('inputs/day6.txt', '+')
 ! array = read_file_to_char_array('inputs/day6_test.txt', '+')
 
-allocate(idirections(lbound(array,1):ubound(array,1), lbound(array,2):ubound(array,2)))
+allocate(idirections(1:size(array,1), 1:size(array,2)))
 idirections = 0
-main : do i = lbound(array,1), ubound(array,1)  ! row
-    do j = lbound(array,2), ubound(array,2)     ! col
+main : do i = 1, size(array,1)  ! row
+    do j = 1, size(array,2)     ! col
         if (any(array(i,j)==['^','v','>','<'])) exit main
     end do
 end do main
@@ -40,8 +40,8 @@ write(*,*) '6a:', isum
 
 ! for part 2, just try all the possible locations of the obstruction
 isum2 = 0
-do iobs = lbound(array,1), ubound(array,1)  ! row
-    do jobs = lbound(array,2), ubound(array,2)  ! col
+do iobs = 1, size(array,1)  ! row
+    do jobs = 1, size(array,2)  ! col
         if (array(iobs,jobs)=='.') then
             ! try an obstruction here
             direction = direction_start ! reset back to how it started
