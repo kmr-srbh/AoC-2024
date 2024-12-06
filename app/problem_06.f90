@@ -59,7 +59,7 @@ contains
     subroutine run(isum, loop, iobs, jobs)
         integer,intent(out) :: isum
         logical,intent(out) :: loop !! if we entered a loop
-        integer,intent(in),optional :: iobs, jobs !! where the put the obstruction
+        integer,intent(in),optional :: iobs, jobs !! where to put the obstruction
 
         character(len=1),dimension(:,:),allocatable :: a
         integer :: i,j
@@ -96,7 +96,7 @@ contains
                 ! have we been here before in the same direction?
                 loop = idirections(i,j) == direction
                 if (loop) return
-                idirections(i,j) = direction  ! update... we want the last time it was here ??
+                idirections(i,j) = direction  ! update... we want the last time it was here
             end if
         end do
 
