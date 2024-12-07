@@ -4,45 +4,49 @@ use aoc_utilities
 
 implicit none
 
-integer :: iunit, isum, i, j, inew, jnew, isum2, iobs, jobs, istart, jstart
+integer :: isum, i, j, inew, jnew, isum2, iobs, jobs, istart, jstart
 character(len=1),dimension(:,:),allocatable :: array
 integer,dimension(:,:),allocatable :: idirections
 integer :: direction, direction_start
 logical :: loop
 
+character(len=1),parameter :: BORDER      = '+'  ! border just to make the end check easier
+character(len=1),parameter :: OBSTRUCTION = '#'
+character(len=1),parameter :: EMPTY       = '.'
+character(len=1),parameter :: MARKED      = 'X'
+character(len=1),dimension(*),parameter :: DIRECTIONS = ['^','>','v','<'] ! in the rotation order (see rotate)
+integer,parameter :: UP    = 1 ! the indices in the above vector
+integer,parameter :: RIGHT = 2
+integer,parameter :: DOWN  = 3
+integer,parameter :: LEFT  = 4
+
 call clk%tic()
 
 ! add a space as a border
-array = read_file_to_char_array('inputs/day6.txt', '+')
-! array = read_file_to_char_array('inputs/day6_test.txt', '+')
+array = read_file_to_char_array('inputs/day6.txt', BORDER)
+! array = read_file_to_char_array('inputs/day6_test.txt', BORDER)
 
-allocate(idirections(1:size(array,1), 1:size(array,2)))
+allocate(idirections(size(array,1), size(array,2)))
 idirections = 0
 main : do i = 1, size(array,1)  ! row
     do j = 1, size(array,2)     ! col
-        if (any(array(i,j)==['^','v','>','<'])) exit main
+        if (any(array(i,j)==DIRECTIONS)) exit main
     end do
 end do main
-istart = i
-jstart = j
-!current position is istart,jstart
-select case (array(istart,jstart))
-case('^'); direction = 1 ! up
-case('v'); direction = 2 ! down
-case('>'); direction = 3 ! right
-case('<'); direction = 4 ! left
-end select
+istart = i; jstart = j ! current position is istart,jstart
+! get direction from the char (index in this array):
+direction = findloc(DIRECTIONS, array(istart,jstart), dim=1)
 direction_start = direction  ! starting direction
 
-! part 1
+! --- part 1
 call run(isum, loop)
 write(*,*) '6a:', isum
 
-! for part 2, just try all the possible locations of the obstruction
+! --- for part 2, just try all the possible locations of the obstruction
 isum2 = 0
 do iobs = 1, size(array,1)  ! row
     do jobs = 1, size(array,2)  ! col
-        if (array(iobs,jobs)=='.') then
+        if (array(iobs,jobs)==EMPTY) then
             ! try an obstruction here
             direction = direction_start ! reset back to how it started
             call run(isum, loop, iobs, jobs)
@@ -68,30 +72,31 @@ contains
         i = istart
         j = jstart
         loop = .false.
-        if (present(iobs)) a(iobs, jobs) = '#'
-        a(i,j) = 'X' ! mark this square
-        idirections(i,j) = direction ! record how we first got here [for part 2]
+        if (present(iobs)) a(iobs, jobs) = OBSTRUCTION ! add the obstruction here
+        a(i,j) = MARKED ! mark first square
         isum = 1
+        idirections(i,j) = direction ! record how we first got here [for part 2]
         do
-
+            ! square to move to, given current direction
             select case (direction)
-            case(1); inew = i-1; jnew = j
-            case(2); inew = i+1; jnew = j
-            case(3); inew = i;   jnew = j+1
-            case(4); inew = i;   jnew = j-1
+            case(UP)   ; inew = i-1; jnew = j
+            case(DOWN) ; inew = i+1; jnew = j
+            case(RIGHT); inew = i;   jnew = j+1
+            case(LEFT) ; inew = i;   jnew = j-1
             end select
-            if (a(inew,jnew)=='+') exit ! done
-            if (a(inew,jnew)=='#') then
+            if (a(inew,jnew)==BORDER) exit ! done
+            if (a(inew,jnew)==OBSTRUCTION) then
+                ! have to rotate and try again
                 call rotate()
                 cycle
             end if
             !move to the new location
             i = inew
             j = jnew
-            if (a(i,j)/='X') then
+            if (a(i,j)/=MARKED) then
                 isum = isum + 1 ! if we haven't already visited it
                 idirections(i,j) = direction ! record how we first got here [for part 2]
-                a(i,j) = 'X' ! mark this square
+                a(i,j) = MARKED ! mark this square
             else
                 ! have we been here before in the same direction?
                 loop = idirections(i,j) == direction
@@ -103,12 +108,7 @@ contains
     end subroutine run
 
     subroutine rotate()
-        select case (direction)
-        case(1); direction = 3 ! up    -> right
-        case(2); direction = 4 ! down  -> left
-        case(3); direction = 2 ! right -> down
-        case(4); direction = 1 ! left  -> up
-        end select
+        direction = mod(direction,4)+1  ! 1,2,3,4
     end subroutine rotate
 
 end program problem_06
