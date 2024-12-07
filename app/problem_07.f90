@@ -37,7 +37,7 @@ do i = 1, n
     ! print*, 'n_spaces = ', n_spaces
     do j = 1, n_combos
         call permute(j)  ! permute for next one
-        ires = evaluate()
+        ires = evaluate(iresult)
         ! print*, '   ', ires
         if (ires == iresult) then
             !print*, '++++++found: ', ires, ' ops: ', ioperators
@@ -59,8 +59,9 @@ write(*,*) '7a:', isum
 call clk%toc('7')
 
 contains
-    function evaluate() result(isum)
+    function evaluate(igoal) result(isum)
         ! evaluate, given the values and operators
+        integer(ip),intent(in) :: igoal !! the solution we are looking for
         integer(ip) :: isum
         integer(ip) :: i
         isum = ivals(1)
@@ -71,6 +72,8 @@ contains
             case(TIMES); isum = isum * ivals(i)
             case default; error stop 'invalid operator'
             end select
+            if (isum > igoal) exit ! we don't have to continue.
+                ! since there is no - operator, the sum can only get larger
         end do
     end function evaluate
 
