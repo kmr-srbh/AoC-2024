@@ -20,8 +20,6 @@ program problem_07
     n = number_of_lines_in_file(iunit)
     isum1 = 0; isum2 = 0
     main: do i = 1, n
-        ! read the file line by line
-        !line = read_line(iunit)
         call parse_line(read_line(iunit), iresult, ivals, ioperators)
 
         ! part 1
