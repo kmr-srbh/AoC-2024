@@ -9,6 +9,7 @@ character(len=1),dimension(:,:),allocatable :: array
 integer,dimension(:,:),allocatable :: idirections
 integer :: direction, direction_start
 logical :: loop
+character(len=1),dimension(:,:),allocatable :: a, array_original_marked ! temp arrays
 
 character(len=1),parameter :: BORDER      = '+'  ! border just to make the end check easier
 character(len=1),parameter :: OBSTRUCTION = '#'
@@ -42,11 +43,13 @@ direction_start = direction  ! starting direction
 call run(isum, loop)
 write(*,*) '6a:', isum
 
-! --- for part 2, just try all the possible locations of the obstruction
+! --- part 2
+array_original_marked = a ! save this - we only need to try obstructions on the places we visited in part 1 !
+array_original_marked(istart, jstart) = array(istart, jstart) ! restore initial marker
 isum2 = 0
 do iobs = 1, size(array,1)  ! row
     do jobs = 1, size(array,2)  ! col
-        if (array(iobs,jobs)==EMPTY) then
+        if (array_original_marked(iobs,jobs)==MARKED) then ! if it was visited in part 1
             ! try an obstruction here
             direction = direction_start ! reset back to how it started
             call run(isum, loop, iobs, jobs)
@@ -65,7 +68,6 @@ contains
         logical,intent(out) :: loop !! if we entered a loop
         integer,intent(in),optional :: iobs, jobs !! where to put the obstruction
 
-        character(len=1),dimension(:,:),allocatable :: a
         integer :: i,j
 
         a = array
