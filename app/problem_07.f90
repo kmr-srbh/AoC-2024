@@ -30,7 +30,6 @@ program problem_07
 
         ! part 2
         ! only retest the ones that didn't pass part 1
-        ! [this is slow... it could be sped up by recusiving doing the evaluate]
         if (.not. done) call run(1, [PLUS,TIMES,CAT], isum2)
 
     end do main
@@ -61,26 +60,37 @@ program problem_07
             allocate(ioperators(n_spaces)) !; ioperators = PLUS
         end subroutine parse_line
 
+        pure function atomic_evaluate(iop, ival1, ival2) result(isum)
+            ! evaluate, given the values and operators
+            integer,intent(in)     :: iop   !! the operator to apply
+            integer(ip),intent(in) :: ival1 !! the first value
+            integer(ip),intent(in) :: ival2 !! the second value
+            integer(ip) :: isum
+            select case (iop)
+            case(PLUS);  isum = ival1 + ival2
+            case(TIMES); isum = ival1 * ival2
+            case(CAT);   isum = ival2 + ival1*10**num_digits(ival2) ! cat the two numbers [ 11 || 2 -> 112 ]
+            case default; error stop 'invalid operator'
+            end select
+        end function atomic_evaluate
+
+        pure integer function num_digits(i)
+            !! return the number of digits in the integer
+            integer(ip),intent(in) :: i
+            num_digits = 1+int(log10(float(i)))
+        end function num_digits
+
         function evaluate(igoal) result(isum)
             ! evaluate, given the values and operators
             integer(ip),intent(in) :: igoal !! the solution we are looking for
             integer(ip) :: isum
             integer(ip) :: i
-            type(string) :: s1, s2
             isum = ivals(1)
             do i = 2, size(ivals)
-                select case (ioperators(i-1))
-                case(PLUS);  isum = isum + ivals(i)
-                case(TIMES); isum = isum * ivals(i)
-                case(CAT)
-                    s1 = int_to_string(isum)
-                    s2 = int_to_string(ivals(i))
-                    s1%str = s1%str // s2%str
-                    isum = s1%to_int_64()
-                case default; error stop 'invalid operator'
-                end select
+                isum = atomic_evaluate(ioperators(i-1), isum, ivals(i))
                 if (isum > igoal) exit ! we don't have to continue.
-                    ! since there is no - operator, the sum can only get larger
+                                       ! since there is no - operator,
+                                       ! the sum can only get larger
             end do
         end function evaluate
 
@@ -94,11 +104,10 @@ program problem_07
 
             if (done) return ! global var
             if (i > size(ioperators)) then
-                ! do the evaluation here.... but.... really we need to also recursively
-                ! do the computation..... so we aren't starting over for each one... or maybe cache something ?
-
+                ! we could speed this up by doing the evaluation recursively also
+                ! [now, we are starting over each time once the combo is generated,
+                !  so there are a lot of duplicated calculations]
                 ires = evaluate(iresult)
-
                 if (ires == iresult) then
                     ! this one works
                     isum = isum + iresult
