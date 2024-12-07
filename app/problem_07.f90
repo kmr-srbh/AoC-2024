@@ -5,86 +5,61 @@ program problem_07
     implicit none
 
     integer :: iunit, n, i
-    character(len=:),allocatable :: line
-    integer(ip) :: isum, isum1, isum2, iresult, n_combos, ires, n_spaces, j
+    integer(ip) :: isum1, isum2, iresult, ires
     integer(ip),dimension(:),allocatable :: ivals
-    type(string),dimension(:),allocatable :: vals, vals2
     integer,dimension(:),allocatable :: ioperators
     logical :: done
 
-    integer,parameter :: PLUS  = 0
-    integer,parameter :: TIMES = 1
-    integer,parameter :: CAT   = 2
+    integer,parameter :: PLUS  = 0 !! +
+    integer,parameter :: TIMES = 1 !! *
+    integer,parameter :: CAT   = 2 !! ||
 
     call clk%tic()
 
     open(newunit=iunit, file='inputs/day7.txt', status='OLD')
     n = number_of_lines_in_file(iunit)
-    isum = 0
-    isum1 = 0
+    isum1 = 0; isum2 = 0
     main: do i = 1, n
-        ! 161011: 16 10 13
-        line = read_line(iunit)
-        vals = split(line,': ')
-        iresult = vals(1)%to_int_64()  ! the results of the calculation
-        vals2 = split(vals(2), ' ')
-        ivals = vals2%to_int_64()      ! array of values to do the calculation
-        n_spaces = size(ivals)-1
-        n_combos = 2**(n_spaces) ! number of operator combinations
-        if (allocated(ioperators)) deallocate(ioperators)
-        allocate(ioperators(n_spaces)) !; ioperators = PLUS
+        ! read the file line by line
+        !line = read_line(iunit)
+        call parse_line(read_line(iunit), iresult, ivals, ioperators)
 
-        ! part 1 [this is pretty fast]
-        do j = 1, n_combos
-            call permute(j)  ! permute for next one
-            ires = evaluate(iresult)
-            if (ires == iresult) then
-                ! this one works
-                isum1 = isum1 + iresult  ! only the part 1 sum
-                isum = isum + iresult
-                cycle main ! don't have to try the part 2 method
-            end if
-        end do
-
-        ! if it didn't work, then try part 2 (with ||)
-        ! [this is slow.. it could be sped up by recusiving doing the evaluate]
+        ! part 1
         done = .false.
-        call generate (1)
+        call run(1, [PLUS,TIMES], isum1)
+
+        ! part 2
+        ! only retest the ones that didn't pass part 1
+        ! [this is slow... it could be sped up by recusiving doing the evaluate]
+        if (.not. done) call run(1, [PLUS,TIMES,CAT], isum2)
 
     end do main
+    close(iunit)
 
     write(*,*) '7a:', isum1
-    write(*,*) '7b:', isum
+    write(*,*) '7b:', isum1 + isum2
 
     call clk%toc('7')
 
     contains
 
-        subroutine permute(icase)
-            !! part 1 permute method
-            integer(ip),intent(in) :: icase ! generate this permutation of the operators
-
-            !note: there's some way to do this with btest ???
-            !      this way is using strings and it probably wildly inefficient
-
-            ! this won't work for part 2 since there are now 3 operators ...
-
-            integer :: k, kk
-            character(64) :: gchar
-
-            ! convert to a binary string 000, 001, 010, etc...
-            write(gchar,'(B64.64)') icase-1
-            kk = 1
-            do k=64,1,-1
-                if (gchar(k:k)=='1') then
-                    ioperators(kk)=TIMES
-                else
-                    ioperators(kk)=PLUS
-                end if
-                kk = kk+1
-                if (kk>n_spaces) exit
-            end do
-        end subroutine permute
+        subroutine parse_line(line, iresult, ivals, ioperators)
+            !! parse the line
+            character(len=*),intent(in) :: line
+            integer(ip),intent(out) :: iresult
+            integer(ip),dimension(:),allocatable,intent(out) :: ivals
+            integer,dimension(:),allocatable,intent(out) :: ioperators !! will just allocate this array
+            type(string),dimension(:),allocatable :: vals, vals2
+            integer(ip) :: n_spaces, n_combos
+            ! 161011: 16 10 13
+            vals = split(line,': ')
+            iresult = vals(1)%to_int_64()  ! the results of the calculation
+            vals2 = split(vals(2), ' ')
+            ivals = vals2%to_int_64()      ! array of values to do the calculation
+            n_spaces = size(ivals)-1
+            n_combos = 2**(n_spaces) ! number of operator combinations
+            allocate(ioperators(n_spaces)) !; ioperators = PLUS
+        end subroutine parse_line
 
         function evaluate(igoal) result(isum)
             ! evaluate, given the values and operators
@@ -109,18 +84,21 @@ program problem_07
             end do
         end function evaluate
 
-        recursive subroutine generate (i)
+        recursive subroutine run (i,icoeffs,isum)
             !! recursive combo generation & evaluate for part 2
             !! see https://github.com/jacobwilliams/polyroots-fortran/blob/master/test/polyroots_test_10.f90
             integer, intent(in) :: i
-            integer :: ix
-            integer,dimension(*),parameter :: icoeffs = [PLUS,TIMES,CAT] !! set of operators
+            integer,dimension(:),intent(in) :: icoeffs !! set of operators
+            integer(ip),intent(inout) :: isum
+            integer :: ix !! counter
 
             if (done) return ! global var
-            if (i > n_spaces) then
+            if (i > size(ioperators)) then
                 ! do the evaluation here.... but.... really we need to also recursively
                 ! do the computation..... so we aren't starting over for each one... or maybe cache something ?
+
                 ires = evaluate(iresult)
+
                 if (ires == iresult) then
                     ! this one works
                     isum = isum + iresult
@@ -130,11 +108,11 @@ program problem_07
             else
                 do ix = 1,size(icoeffs)
                     ioperators(i) = icoeffs(ix)
-                    call generate(i+1)
+                    call run(i+1,icoeffs,isum)
                     if (done) return
                 end do
             end if
-        end subroutine generate
+        end subroutine run
 
     end program problem_07
 
