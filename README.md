@@ -35,7 +35,7 @@ fpm run --profile release --all
 
 <!-- ⭐☆ -->
 
-Problem  | Stars  | Solution | Runtime
+Problem  | Stars  | Solution | Runtime†
 --       | --     | --       | --
 [1](https://adventofcode.com/2024/day/1)  | ⭐⭐ | [problem_01.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_01.f90)  | 1 ms
 [2](https://adventofcode.com/2024/day/2)  | ⭐⭐ | [problem_02.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_02.f90)  | 4 ms
@@ -63,7 +63,9 @@ Problem  | Stars  | Solution | Runtime
 [24](https://adventofcode.com/2024/day/24)| ☆☆ | [problem_24.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_24.f90) |
 [25](https://adventofcode.com/2024/day/25)| ☆☆ | [problem_25.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_25.f90) |
 
-† With OpenMP enabled (i.e, add `--flag "-fopenmp"` to the FPM call).
+† Runtimes for Apple M1 MacBook Pro.
+
+†† With OpenMP enabled (i.e, add `--flag "-fopenmp"` to the FPM call).
 
 ## Previous Years
 
