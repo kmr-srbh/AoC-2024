@@ -42,20 +42,16 @@ program problem_07
 
         subroutine parse_line(line, iresult, ivals, ioperators)
             !! parse the line
-            character(len=*),intent(in) :: line
-            integer(ip),intent(out) :: iresult
-            integer(ip),dimension(:),allocatable,intent(out) :: ivals
+            character(len=*),intent(in) :: line  !! line from the file
+            integer(ip),intent(out) :: iresult !! the results
+            integer(ip),dimension(:),allocatable,intent(out) :: ivals !! list of values
             integer,dimension(:),allocatable,intent(out) :: ioperators !! will just allocate this array
-            type(string),dimension(:),allocatable :: vals, vals2
-            integer(ip) :: n_spaces, n_combos
             ! 161011: 16 10 13
-            vals = split(line,': ')
-            iresult = vals(1)%to_int_64()  ! the results of the calculation
-            vals2 = split(vals(2), ' ')
-            ivals = vals2%to_int_64()      ! array of values to do the calculation
-            n_spaces = size(ivals)-1
-            n_combos = 2**(n_spaces) ! number of operator combinations
-            allocate(ioperators(n_spaces)) !; ioperators = PLUS
+            associate (vals => split(line,': '))
+                iresult = str_to_int64(vals(1))  ! the results of the calculation
+                ivals   = str_to_int64(split(vals(2), ' '))  ! array of values to do the calculation
+            end associate
+            allocate(ioperators(size(ivals)-1)) ! size = number of spaces
         end subroutine parse_line
 
         pure function atomic_evaluate(iop, ival1, ival2) result(isum)
