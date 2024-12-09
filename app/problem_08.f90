@@ -20,30 +20,23 @@ program problem_08
     allocate(antinodes(nrows, ncols)); antinodes = .false.
     antinodes2 = antinodes ! for part 2
 
-    ! identify all the unique antennas
-    allocate(unique_antennas(0))
-    do i = 1, nrows
-        do j = 1, ncols
-            if (array(i,j)/='.' .and. .not. any(unique_antennas==array(i,j))) &
-                unique_antennas = [unique_antennas, array(i,j)]
-        end do
-    end do
-
-    ! for all permutations of any pair
-    ! check for antinodes and accumulate them
+    ! identify all the unique antennas in the array:
+    unique_antennas = achar(unique(ichar(pack(array, mask=array/='.'))))
+    ! process each antenna one at a time:
     do i = 1, size(unique_antennas)
-        ! get the indices of all of these:
-        call get_antenna_indices(unique_antennas(i), iant, jant)
-        ! 123456789
-        ! ...A.A...
-        ! .#.A.A.#.
+        ! get all the indices of this character (this type of antenna):
+        ! do this by creating index matrices, and using mask to get the ones we want
+        iant = pack(spread([(k, k = 1, size(array,1))], dim=2, ncopies=size(array,2)), mask=array==unique_antennas(i))
+        jant = pack(spread([(k, k = 1, size(array,2))], dim=1, ncopies=size(array,1)), mask=array==unique_antennas(i))
+        ! for all permutations of any pair
+        ! check for antinodes and accumulate them
         do j = 1, size(iant)
             do k = 1, size(jant)
-                if (j==k) cycle
+                if (j>=k) cycle ! only need to do each combo once
                 ! offset from one to the other:
                 idel = iant(j) - iant(k)
                 jdel = jant(j) - jant(k)
-                n = 0  ! for part 2, use a loop (part 1 is just the n=1 case)
+                n = 0  ! counter for part 2, use a loop (part 1 is just the n=1 case)
                 found1 = .false.; found2 = .false.
                 do
                     ! does this pair have antinodes within the array bounds?
@@ -70,29 +63,11 @@ program problem_08
 
     call clk%toc('8')
 
-    contains
+contains
 
-    pure logical function in_bounds(i,j)
-        !! is this point in the array bounds?
+    pure logical function in_bounds(i,j) !! is this point in the array bounds?
         integer,intent(in) :: i,j
         in_bounds = (i>=1 .and. i<=nrows .and. j>=1 .and. j<=ncols)
     end function in_bounds
-
-    subroutine get_antenna_indices(a, iant, jant)
-        !! get the indices of the specified character (antenna)
-        ! can we use findloc or pack or something for this?
-        character(len=1),intent(in) :: a !! antenna character
-        integer,dimension(:),allocatable,intent(out) :: iant, jant !! i,j locations of c in the array
-        integer :: i, j
-        allocate(iant(0), jant(0))
-        do i = 1, nrows
-            do j = 1, ncols
-                if (array(i,j)==a) then
-                    iant = [iant, i]
-                    jant = [jant, j]
-                end if
-            end do
-        end do
-    end subroutine get_antenna_indices
 
 end program problem_08
