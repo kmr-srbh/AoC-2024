@@ -46,11 +46,11 @@ program problem_07
             integer(ip),intent(out) :: iresult !! the results
             integer(ip),dimension(:),allocatable,intent(out) :: ivals !! list of values
             integer,dimension(:),allocatable,intent(out) :: ioperators !! will just allocate this array
+            type(string), dimension(:), allocatable :: vals
             ! 161011: 16 10 13
-            associate (vals => split(line,': '))
-                iresult = str_to_int64(vals(1))  ! the results of the calculation
-                ivals   = str_to_int64(split(vals(2), ' '))  ! array of values to do the calculation
-            end associate
+            vals    = split(line,': ')
+            iresult = str_to_int64(vals(1))  ! the results of the calculation
+            ivals   = str_to_int64(split(vals(2), ' '))  ! array of values to do the calculation
             allocate(ioperators(size(ivals)-1)) ! size = number of spaces
         end subroutine parse_line
 
@@ -74,7 +74,7 @@ program problem_07
             num_digits = 1+int(log10(float(i)))
         end function num_digits
 
-        function evaluate(igoal) result(isum)
+        pure function evaluate(igoal) result(isum)
             ! evaluate, given the values and operators
             integer(ip),intent(in) :: igoal !! the solution we are looking for
             integer(ip) :: isum
