@@ -41,7 +41,7 @@ program problem_14
     write(*,*) '14a:', product(quadrant_count)
 
     ! part 2
-    ! just run until we max out the number of contiguous horizontal lines
+    ! a heuristic method: just run until we max out the number of contiguous horizontal lines
     icount_max = -1
     icount_max_index = -1
     do j = 1, 10000   ! upper bound is arbitrary
@@ -52,7 +52,7 @@ program problem_14
         if (icount > icount_max) then ! a new best
             icount_max = icount
             icount_max_index = j
-            call print_board(r)
+            call print_board(r)  ! verified by printing it out
         end if
     end do
     write(*,*) '14b:', icount_max_index
@@ -107,6 +107,5 @@ program problem_14
                 end do
             end do
         end function count_contiguous_horiz_lines
-
 
 end program problem_14
