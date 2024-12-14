@@ -15,8 +15,8 @@ program problem_12
     array = read_file_to_char_array('inputs/day12.txt', border='.')
     nrows = size(array,1)
     ncols = size(array,2)
-    allocate(checked(nrows, ncols)); checked = .false.
-    allocate(price(nrows, ncols)); price = 0
+    allocate(checked(nrows, ncols)); checked = .false. ! to keep track of cells already checked
+    allocate(price(nrows, ncols)); price = 0 ! to store the prices
 
     ! loop through each cell and recursively
     ! search to accumulate the area and perimeter
@@ -44,7 +44,7 @@ program problem_12
             if (array(i,j)=='.') return
             if (array(i,j)/=c) return
             if (checked(i,j)) return  ! if already checked
-            checked(i,j) = .true.
+            checked(i,j) = .true.  ! found a new one
             iarea = iarea + 1  ! area is just a count of the ones with the same char
             call check(c,i-1,j) ! check adjacent ones
             call check(c,i+1,j)
@@ -62,4 +62,5 @@ program problem_12
                 iperimeter = iperimeter + 1  ! adjacent to another char, so it's part of the perimeter
             end if
         end subroutine check
+
 end program problem_12
