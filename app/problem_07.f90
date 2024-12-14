@@ -68,12 +68,6 @@ program problem_07
             end select
         end function atomic_evaluate
 
-        pure integer function num_digits(i)
-            !! return the number of digits in the integer
-            integer(ip),intent(in) :: i
-            num_digits = 1+int(log10(float(i)))
-        end function num_digits
-
         pure function evaluate(igoal) result(isum)
             ! evaluate, given the values and operators
             integer(ip),intent(in) :: igoal !! the solution we are looking for
