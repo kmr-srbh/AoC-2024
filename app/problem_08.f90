@@ -25,9 +25,7 @@ program problem_08
     ! process each antenna one at a time:
     do i = 1, size(unique_antennas)
         ! get all the indices of this character (this type of antenna):
-        ! do this by creating index matrices, and using mask to get the ones we want
-        iant = pack(spread([(k, k = 1, size(array,1))], dim=2, ncopies=size(array,2)), mask=array==unique_antennas(i))
-        jant = pack(spread([(k, k = 1, size(array,2))], dim=1, ncopies=size(array,1)), mask=array==unique_antennas(i))
+        call get_indices(array, unique_antennas(i), iant, jant)
         ! for all permutations of any pair
         ! check for antinodes and accumulate them
         do j = 1, size(iant)

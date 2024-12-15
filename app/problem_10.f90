@@ -5,7 +5,7 @@ program problem_10
     implicit none
 
     integer,dimension(:,:),allocatable :: array
-    integer :: it, k, isum
+    integer :: it, isum
     integer,dimension(:),allocatable :: itraillhead, jtraillhead, scores, ratings
     integer,dimension(:),allocatable :: iends_found, jends_found
 
@@ -15,8 +15,7 @@ program problem_10
     array = read_file_to_int_array('inputs/day10.txt')
 
     ! first get the trailhead indices:
-    itraillhead = pack(spread([(k, k = 1, size(array,1))], dim=2, ncopies=size(array,2)), mask=array==0)
-    jtraillhead = pack(spread([(k, k = 1, size(array,2))], dim=1, ncopies=size(array,1)), mask=array==0)
+    call get_indices(array, 0, itraillhead, jtraillhead)
     allocate(scores(size(itraillhead))); scores = 0
     allocate(ratings(size(itraillhead))); ratings = 0
 
