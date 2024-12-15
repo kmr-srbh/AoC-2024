@@ -4,14 +4,12 @@ program problem_14
 
     implicit none
 
-    integer :: iunit, n_lines
-    integer :: i, j, icount, icount_max, icount_max_index
+    integer :: iunit, n_lines, i, j, icount, icount_max, icount_max_index
     character(len=:),allocatable :: line
     integer,dimension(:,:),allocatable :: r,v   ! x,y and vx,vy
     integer,dimension(:,:),allocatable :: rf    ! final x,y
     type(string),dimension(:),allocatable :: vals
     integer,dimension(4) :: quadrant_count
-    integer,dimension(:,:),allocatable :: r_xmas    ! corrdinates for an x-mas tree image
 
     ! grid size:
     ! integer,parameter :: nrows = 7    ! for test

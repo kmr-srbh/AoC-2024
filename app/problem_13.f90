@@ -10,7 +10,7 @@ program problem_13
     implicit none
 
     integer :: iunit, i, n_lines
-    character(len=:),allocatable :: line1, line2, line3, tmp
+    character(len=:),allocatable :: line
     type(string),dimension(:),allocatable :: vals
     real(wp),dimension(2,2) :: a, ainv
     real(wp),dimension(2,1) :: b, x
@@ -33,41 +33,28 @@ program problem_13
         ! [ax bx] |apress| = |x_prize|
         ! [ay by] |bpress| = |y_prize|
 
-        line1 = read_line(iunit)
-        line2 = read_line(iunit)
-        line3 = read_line(iunit)
-        tmp   = read_line(iunit)
-
-        vals = split(line1(11:),', ')
-        a(1,1) = real(int(vals(1)%str(3:)), wp)
-        a(2,1) = real(int(vals(2)%str(3:)), wp)
-
-        vals = split(line2(11:),', ')
-        a(1,2) = real(int(vals(1)%str(3:)), wp)
-        a(2,2) = real(int(vals(2)%str(3:)), wp)
-
-        vals = split(line3(8:),', ')
-        b(1,1) = real(int(vals(1)%str(3:)), wp)
-        b(2,1) = real(int(vals(2)%str(3:)), wp)
+        line = read_line(iunit); vals = split(line(11:),', ')
+        a(:,1) = [real(int(vals(1)%str(3:)), wp), real(int(vals(2)%str(3:)), wp)]
+        line = read_line(iunit); vals = split(line(11:),', ')
+        a(:,2) = [real(int(vals(1)%str(3:)), wp), real(int(vals(2)%str(3:)), wp)]
+        line = read_line(iunit); vals = split(line(8:),', ')
+        b(:,1) = [real(int(vals(1)%str(3:)), wp), real(int(vals(2)%str(3:)), wp)]
+        line = read_line(iunit) ! blank line
 
         call inverse (a, ainv, status_ok)
         if (status_ok) then
             ! part 1
             x = matmul(ainv, b)
-            if (all(x>0.0_wp) .and. all(is_int(x))) then ! it's only a solution if they are integers
-                icost = icost + 3_ip*x(1,1) + x(2,1)
-            end if
+            if (all(x>0.0_wp) .and. all(is_int(x))) icost = icost + 3_ip*x(1,1) + x(2,1)
             ! part 2
             x = matmul(ainv, 10000000000000.0_wp + b)
-            if (all(x>0.0_wp) .and. all(is_int(x))) then ! it's only a solution if they are integers
-                icost2 = icost2 + 3_ip*x(1,1) + x(2,1)
-            end if
+            if (all(x>0.0_wp) .and. all(is_int(x))) icost2 = icost2 + 3_ip*x(1,1) + x(2,1)
         else
             print*, 'matrix cannot be inverted'
         end if
     end do
 
-    write(*,'(a,i20)') '13a:', icost
+    write(*,'(a,i20)')   '13a:', icost
     write(*,'(a,f20.0)') '13b:', icost2
 
     call clk%toc('13')
