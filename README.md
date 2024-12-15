@@ -51,7 +51,7 @@ Problem  | Stars  | Solution | Runtime†
 [12](https://adventofcode.com/2024/day/12)| ⭐⭐ | [problem_12.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_12.f90)  | 42 ms
 [13](https://adventofcode.com/2024/day/13)| ⭐⭐ | [problem_13.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_13.f90)  | 1 ms
 [14](https://adventofcode.com/2024/day/14)| ⭐⭐ | [problem_14.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_14.f90) | 97 ms
-[15](https://adventofcode.com/2024/day/15)| ☆☆ | [problem_15.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_15.f90) |
+[15](https://adventofcode.com/2024/day/15)| ⭐☆ | [problem_15.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_15.f90) |
 [16](https://adventofcode.com/2024/day/16)| ☆☆ | [problem_16.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_16.f90)  |
 [17](https://adventofcode.com/2024/day/17)| ☆☆ | [problem_17.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_17.f90) |
 [18](https://adventofcode.com/2024/day/18)| ☆☆ | [problem_18.f90](https://github.com/jacobwilliams/AoC-2024/blob/master/app/problem_18.f90) |
